@@ -1,0 +1,6 @@
+langgraph>=0.1.0
+langchain>=0.1.0
+langchain-openai>=0.1.0      # for live smoke tests with a real language model only
+pytest>=7.0
+matplotlib>=3.7.0            # risk dashboard chart generation
+numpy>=1.24.0                # array maths for cluster growth curves

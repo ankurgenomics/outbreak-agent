@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.DS_Store
+.env
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+*.log
+
+# Keep reports/ PNGs in git (they appear in README) but ignore future PDFs
+reports/*.pdf

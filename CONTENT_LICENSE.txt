@@ -1,0 +1,29 @@
+BLOG POST AND INFOGRAPHIC LICENCE NOTICE
+=========================================
+
+All blog posts, infographics, and written content authored by Ankur Sharma, PhD
+and published at https://ankurgenomics.github.io are licensed under:
+
+  Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+  https://creativecommons.org/licenses/by-nc/4.0/
+
+YOU ARE FREE TO:
+  Share  - copy and redistribute the material in any medium or format
+  Adapt  - remix, transform, and build upon the material
+
+UNDER THE FOLLOWING TERMS:
+  Attribution    - You must credit "Ankur Sharma, PhD" and link back to the
+                   original post at ankurgenomics.github.io
+  NonCommercial  - You may not use the material for commercial purposes
+                   (training datasets, paid courses, consulting deliverables)
+                   without written permission.
+
+TO REQUEST COMMERCIAL USE:
+  Contact: ankurs103@gmail.com
+  Subject: CC BY-NC Commercial Use Request - [article title]
+
+CODE IN THIS REPOSITORY:
+  The source code (*.py files) is separately licensed under Apache 2.0.
+  See the LICENSE file for details.
+
+Copyright 2026 Ankur Sharma, PhD. All rights reserved for commercial use.
