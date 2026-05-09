@@ -146,6 +146,31 @@ START
 
 ### Shared State -- OutbreakState
 
+**For non-technical readers -- what is a shared state?**
+
+Think of `OutbreakState` as the case file that travels with the patient through every
+step of a hospital admission. When you arrive at A&E, the triage nurse writes down your
+name, age, symptoms, and how long you have had them. The doctor reads that same file and
+adds test results. The specialist reads it again and adds a diagnosis. Nobody re-interviews
+you from scratch at each step -- they read the file, add their findings, and pass it on.
+
+`OutbreakState` works the same way. It is a single document that every node in the
+pipeline reads from and writes back to:
+
+- The **input fields** are what the public health officer enters at the start: case ID,
+  patient age, where the exposure happened, which ship, which cabin, who the contacts are,
+  how many days since symptoms started, lab test values, and the genome sequence if available.
+- The **genomic_node** fills in the virus clade (family lineage), any mutation flags,
+  and how complete the genome sequence is.
+- The **linkage_node** fills in the full contact cluster, how the virus is spreading,
+  and how many people are at risk.
+- The **risk_node** fills in the numerical risk score and the recommended action.
+- The **critic_node** adds any consistency flags -- or marks the case as approved.
+
+No node ever re-runs the previous step's work. No information is lost between steps.
+The public health officer sees the final, fully-populated case file -- not a summary of
+summaries. That completeness is what makes the output auditable.
+
 Every node reads from and writes to a single `OutbreakState` TypedDict:
 
 ```python
@@ -184,8 +209,15 @@ class OutbreakState(TypedDict):
 
 ### The Critic Node -- Why It Matters Most
 
-The `critic_node` is the part that makes this *agentic* rather than just a pipeline.
-It implements four consistency rules:
+**For non-technical readers -- what does the critic node actually do?**
+
+Imagine you are a senior epidemiologist reviewing a junior colleague's risk assessment.
+You do not just accept their conclusion -- you check whether the pieces are internally
+consistent. If they wrote "low risk" for a patient with confirmed aerosol transmission
+of a virus with 35-50% fatality rate, you would send it back. That is exactly what the
+critic node does -- automatically, before any output reaches a decision-maker.
+
+The critic enforces four specific consistency rules:
 
 1. **ANDV + aerosol + LOW/MEDIUM tier** → flag: likely under-scoring
 2. **Genome completeness < 70% with confident clade** → flag: re-sequence needed
@@ -221,11 +253,18 @@ Case: ANDV-2026-001
 
 ## 5. Testing Without an API Key -- The Three-Layer Strategy
 
-One design principle I care about: the core outbreak logic should be **testable for
-free, by anyone, without an API key**. Real scientific tools should not require a
-credit card to run a unit test.
+**For non-technical readers -- why does this matter?**
 
-`outbreak-agent` uses a three-layer test strategy:
+Most AI tools you read about in the press require an API key to do anything meaningful.
+An API key means a credit card, a usage bill, and a dependency on a commercial service
+staying operational. If the service goes down, the tool breaks. If the provider changes
+pricing, the tool becomes expensive. This is not acceptable for public health tooling.
+
+`outbreak-agent` is designed so that the core outbreak logic -- the part that actually
+does the triage -- runs entirely offline, on your laptop, for free, with no external
+dependencies. You can audit every decision the agent makes without paying anyone.
+
+The three test layers reflect three different levels of trust:
 
 ### Layer 1 -- Pure Unit Tests (Free, always run)
 
