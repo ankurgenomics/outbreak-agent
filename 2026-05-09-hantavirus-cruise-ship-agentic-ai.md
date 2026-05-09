@@ -16,8 +16,7 @@ excerpt: "On April 2026, MV Hondius returned from Patagonia carrying more than i
 > **TL;DR** -- Andes virus became the first hantavirus confirmed for human-to-human transmission.
 > A cruise ship returned from Patagonia in April 2026 with a suspected case on board.
 > I built `outbreak-agent` -- a 4-node LangGraph triage pipeline -- to show exactly how
-> an agentic AI system should handle this kind of event. The code is public. The clinical
-> scoring module is not. Here is why both decisions were deliberate.
+> an agentic AI system should handle this kind of event.
 
 ---
 
