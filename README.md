@@ -47,21 +47,20 @@ all auto-populated from the agent state. Readable on mobile, laptop, or large di
 
 ## Why This Matters
 
-Standard outbreak surveillance tools assume:
-- A single exposure point
-- A clear case definition from day one
-- Linear contact tracing
+Standard outbreak surveillance tools are databases with search interfaces. You query
+them, they return data, a human decides what to do next. That loop takes 48–72 hours.
 
-**ANDV on a cruise ship violates all three.** It is the only hantavirus with
-confirmed human-to-human aerosol transmission. A case on MV Hondius means the
-contact list is not 3 named individuals -- it is every passenger sharing HVAC zones,
-with a 45-day incubation window during which infected passengers fly home globally.
+`outbreak-agent` is different. You give it a case and it gives you a risk-stratified
+action, an audit trail, and a printed report. No human in the middle.
 
-A human analyst takes 48-72 hours to produce a risk-stratified contact list.
-`outbreak-agent` does it in under 2 hours -- deterministically, with a built-in
-quality gate that flags inconsistent outputs before they reach a decision-maker.
+The MV Hondius scenario is exactly what it was designed for: Andes virus, the only
+hantavirus with confirmed human-to-human aerosol transmission, on a vessel with
+recirculated cabin air, rotating contact networks, and a 45-day incubation window
+during which infected passengers fly home globally. The contact list is not 3 named
+individuals -- it is every passenger sharing HVAC zones.
 
-This is what agentic AI looks like applied to a real public health problem.
+Human analyst: 48–72 hours to produce a risk-stratified contact list.
+`outbreak-agent`: under 2 seconds. Deterministic. Auditable. Free to run.
 
 ---
 
@@ -97,19 +96,31 @@ START
          +-----------> genomic_node (re-evaluate with updated context)
 ```
 
-One shared state object (`OutbreakState`) flows through all nodes. Each node
-reads what it needs and writes back only its own outputs -- no side effects,
-fully testable in isolation.
+You feed it the facts: patient, age, exposure location, ship, cabin, contacts,
+symptom onset, lab values, genome sequence if available. The agent runs 4 steps:
 
-**LangGraph vs LLM -- what does what:**
-- **LangGraph** provides the graph engine: state management, node wiring, the conditional
-  edge that loops critic → genomic_node when flags fire, and execution order.
-- **The 4 nodes** (`genomic_node`, `linkage_node`, `risk_node`, `critic_node`) are
-  **rule-based / heuristic** -- no LLM calls. This is what makes the 33 tests free,
-  fast, and deterministic.
-- **LLM** enters only in the optional Layer 3 smoke test, which verifies that the same
-  graph wiring works when nodes are replaced with real API calls. The architecture is
-  designed so that swap is trivial.
+- **Step 1 — Identify the virus.** `genomic_node` determines the viral clade, flags
+  mutations of concern, and assesses genome completeness. For MV Hondius: Andes virus,
+  S-clade 2026, G2 glycoprotein shift (structural basis for aerosol transmission).
+- **Step 2 — Map the contacts.** `linkage_node` resolves the full contact cluster --
+  inferred from vessel layout, HVAC zones, and excursion groups -- and determines
+  transmission mode.
+- **Step 3 — Score the risk.** `risk_node` produces a composite score (0–100) and
+  assigns a tier: LOW / MEDIUM / HIGH / CRITICAL. For MV Hondius: 98/100, CRITICAL.
+- **Step 4 — Audit the output.** `critic_node` checks the entire output for internal
+  contradictions before anything reaches a decision-maker. Inconsistent outputs loop
+  back for re-evaluation -- up to 3 times. Only a clean, consistent output is approved.
+
+One shared state object (`OutbreakState`) flows through all 4 nodes. Each node
+reads what it needs and writes back only its own outputs.
+
+**LangGraph vs LLM:** LangGraph provides the graph engine -- state management, node
+wiring, and the conditional edge that routes the critic's flag back to `genomic_node`
+for re-evaluation. The 4 nodes are rule-based and deterministic; that is what makes
+33 tests run free, fast, and offline. The architecture is designed so replacing any
+rule-based node with a real LLM call requires changing one function -- not rewiring
+the graph. Deterministic and auditable today, upgradeable without structural changes
+tomorrow.
 
 ### The Critic Node: Why It Matters
 
