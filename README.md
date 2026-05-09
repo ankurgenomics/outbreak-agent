@@ -101,6 +101,16 @@ One shared state object (`OutbreakState`) flows through all nodes. Each node
 reads what it needs and writes back only its own outputs -- no side effects,
 fully testable in isolation.
 
+**LangGraph vs LLM -- what does what:**
+- **LangGraph** provides the graph engine: state management, node wiring, the conditional
+  edge that loops critic → genomic_node when flags fire, and execution order.
+- **The 4 nodes** (`genomic_node`, `linkage_node`, `risk_node`, `critic_node`) are
+  **rule-based / heuristic** -- no LLM calls. This is what makes the 33 tests free,
+  fast, and deterministic.
+- **LLM** enters only in the optional Layer 3 smoke test, which verifies that the same
+  graph wiring works when nodes are replaced with real API calls. The architecture is
+  designed so that swap is trivial.
+
 ### The Critic Node: Why It Matters
 
 The `critic_node` is what makes this *agentic* rather than just a pipeline.
@@ -207,24 +217,6 @@ outbreak-agent/
     test_smoke.py    -- live model smoke tests (optional)
   reports/           -- auto-generated output directory
 ```
-
----
-
-## What Is Public vs Private
-
-| Module | Status | Notes |
-|---|---|---|
-| `models.py` | Public -- Apache 2.0 | State schema: reuse freely |
-| `nodes.py` | Public -- Apache 2.0 | Heuristic logic: shows the pattern |
-| `agent.py` | Public -- Apache 2.0 | Graph wiring: critic-loop architecture |
-| `mock_data.py` | Public -- Apache 2.0 | 4 scenarios including MV Hondius |
-| `demo.py` | Public -- Apache 2.0 | CLI runner |
-| `report_node.py` | Public -- Apache 2.0 | PNG + PDF report generation |
-| `genomics_tools/` | Private | Production FASTA/VCF parsers |
-| `clinical_triage/` | Private | Validated risk thresholds (proprietary dataset) |
-
-Contact [ankurs103@gmail.com](mailto:ankurs103@gmail.com) with your institutional
-affiliation if you need access to the private modules for legitimate research.
 
 ---
 
