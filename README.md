@@ -252,7 +252,7 @@ and insurance risk scoring follow the same pattern.
 
 Full write-up with biology, architecture, and design decisions:
 
-[When an AI Agent Boards a Cruise Ship: Hantavirus, LangGraph, and the Future of Outbreak Triage](https://ankurgenomics.github.io)
+[When an AI Agent Boards a Cruise Ship: Hantavirus, LangGraph, and the Future of Outbreak Triage](https://ankurgenomics.github.io/2026/05/09/hantavirus-cruise-ship-agentic-ai.html)
 
 ---
 

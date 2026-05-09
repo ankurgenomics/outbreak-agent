@@ -349,8 +349,10 @@ The `outbreak-agent` public code is a foundation. The roadmap I am working towar
 
 **Near term (public)**
 - `alert_node` -- auto-generates WHO-format outbreak notification draft
-- `report_node` -- produces structured PDF triage report (using the same render pipeline
-  as my resume export tool -- yes, the same PDF engine)
+- `report_node` -- **complete.** Produces a 3-panel matplotlib risk dashboard (PNG) and
+  a structured A4 PDF triage report via ReportLab. Both generate automatically on every
+  `demo.py` run. No API key. No cost. See the dashboard image embedded in the
+  [README](https://github.com/ankurgenomics/outbreak-agent#what-this-produces).
 - GitHub Actions CI -- `pytest tests/test_nodes.py tests/test_graph.py` on every push
 
 **Medium term (private → eventually public)**
