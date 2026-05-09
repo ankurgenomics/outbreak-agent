@@ -267,55 +267,7 @@ without making it a CI blocker.
 
 ---
 
-## 6. What I Made Public -- and What I Kept Private (And Why)
-
-Building `outbreak-agent` forced me to think clearly about a question every technical
-researcher eventually faces: **how much do you give away?**
-
-Here is my answer, and the reasoning behind each decision:
-
-### Public -- Apache 2.0
-
-| File | What it does | Why public |
-|---|---|---|
-| `models.py` | Shared state schema | Anyone building a triage pipeline needs this pattern |
-| `nodes.py` | Heuristic node functions | Shows the architecture; heuristics are not the IP |
-| `agent.py` | LangGraph graph wiring | Demonstrates the critic-loop pattern specifically |
-| `mock_data.py` | 4 outbreak scenarios | The MV Hondius scenario validates the architecture |
-| `demo.py` | CLI runner | Anyone should be able to run this in 5 minutes |
-
-The public code shows the *pattern* -- stateful directed graph, conditional edges,
-self-correcting critic loop. That pattern is the contribution.
-
-### Private -- Not Published
-
-| Module | What it does | Why private |
-|---|---|---|
-| `genomics_tools/` | Real FASTA/VCF parsers | Production-quality genomic parsing is years of work |
-| `clinical_triage/` | Validated risk thresholds | Based on Mirxes dataset; validated in real deployments |
-
-The private modules are not withheld to be secretive. They are withheld because:
-
-1. **The Mirxes clinical data** -- used to validate the risk thresholds -- is not mine
-   to share without institutional consent.
-2. **Production FASTA parsers** -- the ones that handle degraded nanopore reads,
-   chimeric assemblies, and mixed-strain samples -- took years to build. The public
-   stub in `nodes.py` demonstrates the interface; the implementation is the IP.
-3. **Signalling** -- "I have a private module that handles real clinical data" is
-   a stronger signal to a potential employer than showing everything.
-
-If you need access to the clinical module for legitimate research, email me at
-[ankurs103@gmail.com](mailto:ankurs103@gmail.com) with your institutional affiliation.
-
-### Blog Posts and Infographics -- CC BY-NC 4.0
-
-Everything I write -- including this post -- is free to share with attribution.
-You may not use it for commercial purposes (training datasets, paid courses,
-consulting deliverables) without written permission.
-
----
-
-## 7. The Geopolitical Layer: Why Surveillance Gaps Are Predictable
+## 6. The Geopolitical Layer: Why Surveillance Gaps Are Predictable
 
 The 2026 Patagonia situation did not emerge in a vacuum.
 
@@ -343,7 +295,7 @@ That is the value proposition.
 
 ---
 
-## 8. What Comes Next
+## 7. What Comes Next
 
 The `outbreak-agent` public code is a foundation. The roadmap I am working toward:
 

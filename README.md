@@ -221,7 +221,7 @@ outbreak-agent/
 | `demo.py` | Public -- Apache 2.0 | CLI runner |
 | `report_node.py` | Public -- Apache 2.0 | PNG + PDF report generation |
 | `genomics_tools/` | Private | Production FASTA/VCF parsers |
-| `clinical_triage/` | Private | Validated risk thresholds (Mirxes dataset) |
+| `clinical_triage/` | Private | Validated risk thresholds (proprietary dataset) |
 
 Contact [ankurs103@gmail.com](mailto:ankurs103@gmail.com) with your institutional
 affiliation if you need access to the private modules for legitimate research.
