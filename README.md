@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://python.org)
 [![Tests](https://img.shields.io/badge/tests-33%20passed-brightgreen)](tests/)
+<img width="2400" height="1792" alt="Autonomous Triage   Risk Intelligence Agent" src="https://github.com/user-attachments/assets/3cc0186f-5337-4ed8-b693-fef79b1669ba" />
 
 > A 4-node LangGraph agent that triages infectious disease outbreak cases --
 > combining genomic analysis, contact linkage, risk scoring, and a self-correcting
